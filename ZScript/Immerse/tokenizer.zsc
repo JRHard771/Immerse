@@ -1,0 +1,267 @@
+// Copyright (c) 2018 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.  
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
+class Tokenizer
+{
+    protected Stream m_Stream;
+
+    static Tokenizer Create(Stream input)
+    {
+        return CreateDerived("Tokenizer", input);
+    }
+
+    static Tokenizer CreateDerived(class<Tokenizer> type, Stream input)
+    {
+        let tk = Tokenizer(new(type));
+        tk.m_Stream = input;
+        return tk;
+    }
+
+    protected virtual bool SkipWhitespace()
+    {
+        bool space = false;
+        
+        while(!m_Stream.EndOfStream())
+        {
+            int pos   = m_Stream.Position();
+            string ch = m_Stream.Read();
+
+            if(StringUtility.IsSpace(ch))
+                space = true;
+            else
+            {
+                m_Stream.Seek(pos, SEEK_Begin);
+                break;
+            }
+        }
+
+        return space;
+    }
+
+    protected virtual string ReadLiteral(string terminator)
+    {
+        string value = "";
+
+        while(!m_Stream.EndOfStream())
+        {
+            string ch = m_Stream.Read();
+
+            if(ch == terminator) return value;
+
+            // handle escape sequences
+            if(ch == "\x92" && !m_Stream.EndOfStream())
+            {
+                let e = m_Stream.Read();
+
+                // switch on a name is case-insensitive,
+                // so we do \a, \n and \r manually.
+                     if(e == "a") value = value .. "\a";
+                else if(e == "n") value = value .. "\n";
+                else if(e == "r") value = value .. "\r";
+                else switch(name(e))
+                {
+                case '"':
+                case '\x27': // '
+                case '\x92': // \
+                    value = value .. e;
+                    break;
+                default: // ignore unknown sequences
+                    value = value .. "\x92" .. e;
+                    break;
+                }
+            }
+            else
+                value = value .. ch;
+        }
+
+        return value;
+    }
+
+    protected virtual string ReadIdentifier()
+    {
+        string value = "";
+
+        while(!m_Stream.EndOfStream())
+        {
+            let ch = m_Stream.Peek();
+
+            if(StringUtility.IsDigit(ch) || StringUtility.IsLetter(ch) || ch == "_")
+                value = value .. m_Stream.Read();
+            else
+                break;
+        }
+
+        return value;
+    }
+
+    protected virtual string ReadNumber()
+    {
+        string value = "";
+
+        while(!m_Stream.EndOfStream())
+        {
+            let ch = m_Stream.Peek();
+
+            if(StringUtility.IsDigit(ch) || ch == ".")
+                value = value .. m_Stream.Read();
+            else
+                break;
+        }
+
+        return value;
+    }
+
+    protected virtual string ReadComment(bool multiline)
+    {
+        string value = "";
+
+        while(!m_Stream.EndOfStream())
+        {
+            let ch = m_Stream.Read();
+
+            if(multiline)
+            {
+                if(ch == "*")
+                {
+                    let next = m_Stream.Read();
+                    
+                    if(next == "/") break;
+                    else value = value .. ch .. next;
+                }
+                else
+                    value = value .. ch;
+            }
+            else
+            {
+                if(ch == "\n") break;
+                else value = value .. ch;
+            }
+        }
+
+        return value;
+    }
+
+    virtual Token Peek(bool skipComments = true)
+    {
+        int pos = m_Stream.Position();
+        let tok = Next(skipComments);
+        m_Stream.Seek(pos, SEEK_Begin);
+        return tok;
+    }
+
+    virtual Token Next(bool skipComments = true)
+    {
+        Token tk;
+
+        // keep looping until we find a valid token to return.
+        // the only time we'll have an "invalid" token is if
+        // 'skipComments' is true and we have a comment token.
+
+        while(true)
+        {
+            tk = Token.Create();
+
+            if(SkipWhitespace())
+                tk.flags |= TKF_WhitespacePrefix;
+
+            if(m_Stream.EndOfStream())
+            {
+                tk.kind = TOK_EndOfStream;
+                return tk;
+            }
+
+            string ch = m_Stream.Read();
+            tk.value  = ch;
+
+            switch(name(ch))
+            {
+            case '"':
+            case '\x27': // '
+                tk.kind  = ch == "'" ? TOK_CharLit : TOK_StringLit;
+                tk.value = ReadLiteral(ch);
+                break;
+
+            case '/': {
+                if(!m_Stream.EndOfStream())
+                {
+                    let peek = m_Stream.Peek();
+                    if(peek == "*" || peek == "/")
+                    {
+                        m_Stream.Read();
+                        tk.kind  = TOK_Comment;
+                        tk.value = ReadComment(peek == "*");
+                        break;
+                    }
+                }
+
+                tk.kind = TOK_Slash;
+                break;
+            }
+
+            case '_':
+                tk.kind  = TOK_Identifier;
+                tk.value = ch .. ReadIdentifier();
+                break;
+
+            default: {
+                if(StringUtility.IsLetter(ch))
+                {
+                    tk.kind  = TOK_Identifier;
+                    tk.value = ch .. ReadIdentifier();
+                }
+                else if(StringUtility.IsDigit(ch))
+                {
+                    tk.kind = TOK_Number;
+                    tk.value = ch .. ReadNumber();
+                }
+                else
+                    tk.kind = TOK_Unknown;
+                break;
+            }
+
+            case '\x92': // \
+                tk.kind = TOK_Backslash;
+                break;
+
+            case '!': tk.kind = TOK_Bang; break;
+            case '#': tk.kind = TOK_Hash; break;
+            case '$': tk.kind = TOK_Dollar; break;
+            case '%': tk.kind = TOK_Percent; break;
+            case '&': tk.kind = TOK_And; break;
+            case '(': tk.kind = TOK_ParenO; break;
+            case ')': tk.kind = TOK_ParenC; break;
+            case '*': tk.kind = TOK_Asterisk; break;
+            case '+': tk.kind = TOK_Plus; break;
+            case ',': tk.kind = TOK_Comma; break;
+            case '-': tk.kind = TOK_Minus; break;
+            case '.': tk.kind = TOK_Period; break;
+            case ':': tk.kind = TOK_Colon; break;
+            case ';': tk.kind = TOK_Semicolon; break;
+            case '<': tk.kind = TOK_LessThan; break;
+            case '=': tk.kind = TOK_Equals; break;
+            case '>': tk.kind = TOK_MoreThan; break;
+            case '?': tk.kind = TOK_Question; break;
+            case '@': tk.kind = TOK_At; break;
+            case '[': tk.kind = TOK_BrackO; break;
+            case ']': tk.kind = TOK_BrackC; break;
+            case '^': tk.kind = TOK_Exponent; break;
+            case '`': tk.kind = TOK_Backquote; break;
+            case '{': tk.kind = TOK_BraceO; break;
+            case '|': tk.kind = TOK_VerticalBar; break;
+            case '}': tk.kind = TOK_BraceC; break;
+            case '~': tk.kind = TOK_Tilde; break;
+            }
+
+            if(!m_Stream.EndOfStream() && StringUtility.IsSpace(m_Stream.Peek()))
+                tk.flags |= TKF_WhitespaceSuffix;
+
+            // if comments are not wanted, skip over them
+            if(skipComments && tk.kind == TOK_Comment) continue;
+
+            break;
+        }
+
+        return tk;
+    }
+}

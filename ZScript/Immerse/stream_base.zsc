@@ -1,0 +1,49 @@
+// Copyright (c) 2018 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.  
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
+enum ESeekOrigin
+{
+    SEEK_Begin,
+    SEEK_Current,
+    SEEK_End,
+}
+
+class Stream abstract
+{
+    static Stream CreateDerived(class<Stream> type)
+    {
+        return Stream(new(type));
+    }
+
+    /*abstract*/ virtual int ReadByte() { return 0; }
+    /*abstract*/ virtual string Read()  { return ""; }
+    /*abstract*/ virtual int Length()   { return 0; }
+    /*abstract*/ virtual int Position() { return 0; }
+
+    /*abstract*/ virtual int Seek(int offset, ESeekOrigin origin = SEEK_Current)
+    {
+        return 0;
+    }
+
+    virtual bool EndOfStream()
+    {
+        return Position() >= Length();
+    }
+
+    virtual string Peek()
+    {
+        let position = Position();
+        let c        = Read();
+        Seek(position, SEEK_Begin);
+        return c;
+    }
+
+    virtual int PeekByte()
+    {
+        let position = Position();
+        let c        = ReadByte();
+        Seek(position, SEEK_Begin);
+        return c;
+    }
+}

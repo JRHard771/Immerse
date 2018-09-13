@@ -1,0 +1,60 @@
+// Copyright (c) 2018 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.  
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
+class STEP_Static : StaticEventHandler
+{
+	Array<Sound> stepSounds;
+
+    void AddStep(TextureID tex, Sound snd, Sound default = "step/default")
+    {
+        int idx = int(tex);
+        int len = idx + 1;
+
+        if(stepSounds.Size() < len)
+        {
+            int reserve = len - stepSounds.Size();
+
+            for(int i = stepSounds.Reserve(reserve); i < len; i++)
+                stepSounds[i] = default;
+        }
+
+        stepSounds[idx] = snd;
+    }
+
+    override void OnRegister()
+    {
+        for(int lump = -1; (lump = Wads.FindLump("STEPDEFS", lump + 1)) != -1;)
+        {
+            let stepsLump = LumpStream.Create(lump);
+            let tokenizer = Tokenizer.Create(stepsLump);
+
+            Token tk = tokenizer.Next();
+            while(tk.kind != TOK_EndOfStream)
+            {
+                Sound snd = tk.value;
+
+                tk = tokenizer.Next();
+
+                if(tk.kind != TOK_BraceO)
+                    ThrowAbortException("Expected BraceO, got " .. Token.Names[tk.kind]);
+
+                do {
+                    tk = tokenizer.Next();
+                    if(tk.kind == TOK_BraceC) break;
+
+                    TextureID tex = TexMan.CheckForTexture(tk.value, TexMan.Type_Any);
+                    if(tex.IsValid()) AddStep(tex, snd);
+                } while(tk.kind != TOK_EndOfStream);
+
+                tk = tokenizer.Next();
+            }
+        }
+    }
+	
+	override void WorldLoaded(WorldEvent e)
+	{
+		let Tracker = ImmerseGlobal.Get();
+		Tracker.stepSounds.Copy(stepSounds);
+	}
+}

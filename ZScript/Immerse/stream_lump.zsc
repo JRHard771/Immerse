@@ -1,0 +1,33 @@
+// Copyright (c) 2018 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.  
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
+// A simple class that simplifies the creation of a stream from a lump.
+
+class LumpStream : Stream
+{
+    protected StringStream m_StringStream;
+
+    static LumpStream Create(int lump)
+    {
+        return CreateDerived("LumpStream", lump);
+    }
+
+    static LumpStream CreateDerived(class<LumpStream> type, int lump)
+    {
+        let ls = LumpStream(Stream.CreateDerived(type));
+        let ss = StringStream.Create(Wads.ReadLump(lump));
+        ls.m_StringStream = ss;
+        return ls;
+    }
+
+    override string Read()  { return m_StringStream.Read(); }
+    override int Length()   { return m_StringStream.Length(); }
+    override int Position() { return m_StringStream.Position(); }
+    override int ReadByte() { return m_StringStream.ReadByte(); }
+
+    override int Seek(int offset, ESeekOrigin origin)
+    {
+        return m_StringStream.Seek(offset, origin);
+    }
+}

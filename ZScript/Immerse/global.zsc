@@ -1,0 +1,22 @@
+class ImmerseGlobal : Thinker
+{
+	Array<Sound> stepSounds;
+
+	ImmerseGlobal Init()
+	{
+		ChangeStatNum(STAT_STATIC);
+		return self;
+	}
+
+	static ImmerseGlobal Get()
+	{
+		ThinkerIterator it = ThinkerIterator.Create("ImmerseGlobal",STAT_STATIC);
+		let p = ImmerseGlobal(it.Next());
+		if (p == null)
+		{
+			p = new("ImmerseGlobal").Init();
+		}
+		return p;
+	}
+}
+

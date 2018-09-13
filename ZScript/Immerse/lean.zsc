@@ -1,0 +1,25 @@
+class BT_LeanLeft : Inventory
+{}
+
+class BT_LeanRight : Inventory
+{}
+
+class LeaningHandler : EventHandler
+{
+	override void NetworkProcess(ConsoleEvent e)
+	{
+		if (e.Player < 0 || !playeringame[e.Player] || !players[e.Player].mo)
+			return;
+			
+		let player = players[e.Player].mo;
+		
+		if (e.Name ~== "lean_left" && player.health > 0)
+			player.GiveInventory('BT_LeanLeft', 1);
+		else if (e.Name ~== "unlean_left")
+			player.TakeInventory('BT_LeanLeft', 1);
+		else if (e.Name ~== "lean_right" && player.health > 0)
+			player.GiveInventory('BT_LeanRight', 1);
+		else if (e.Name ~== "unlean_right")
+			player.TakeInventory('BT_LeanRight', 1);
+	}
+}

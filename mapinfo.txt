@@ -1,0 +1,4 @@
+GameInfo
+{
+	AddEventHandlers = "STEP_Static", "LeaningHandler", "ImmerseHandler"
+}

@@ -1,0 +1,76 @@
+// Copyright (c) 2018 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.  
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
+// A stream that operates on strings
+
+class StringStream : Stream
+{
+    private string m_Data;
+    private int m_Position;
+
+    static StringStream Create(string data)
+    {
+        return CreateDerived("StringStream", data);
+    }
+
+    static StringStream CreateDerived(class<StringStream> type, string data)
+    {
+        let ss = StringStream(Stream.CreateDerived(type));
+        ss.m_Data = data;
+        return ss;
+    }
+
+    override int ReadByte()
+    {
+        if(EndOfStream())
+            ThrowAbortException("Tried to read beyond the end of a Stream.");
+
+        let c = m_Data.CharCodeAt(m_Position) & 0xff;
+        Seek(1, SEEK_Current);
+
+        return c;
+    }
+
+    override string Read()
+    {
+        if(EndOfStream())
+            ThrowAbortException("Tried to read beyond the end of a Stream.");
+
+        string ch = StringUtility.CharAtUtf8(m_Data, m_Position);
+        Seek(ch.Length(), SEEK_Current);
+
+        return ch;
+    }
+
+    override int Length()
+    {
+        return m_Data.Length();
+    }
+
+    override int Position()
+    {
+        return m_Position;
+    }
+
+    override int Seek(int offset, ESeekOrigin origin)
+    {
+        switch(origin)
+        {
+        case SEEK_Begin:
+            m_Position = offset;
+            break;
+        case SEEK_Current:
+            m_Position += offset;
+            break;
+        case SEEK_End:
+            m_Position = Length() + offset;
+            break;
+        }
+
+        if(m_Position > Length()) m_Position = Length();
+        if(m_Position < 0) m_Position = 0;
+
+        return m_Position;
+    }
+}

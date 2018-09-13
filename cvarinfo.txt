@@ -1,0 +1,37 @@
+// Tilt++ CVars
+
+// Strafe tilting
+server bool sv_strafetilt = true;
+server bool sv_strafetiltreversed = false;
+server float sv_strafetiltspeed = 1.0;
+server float sv_strafetiltangle = 0.5;
+
+// Movement tilting
+server bool sv_movetilt = true;
+server float sv_movetiltspeed = 15.000;
+server float sv_movetiltangle = 0.015;
+server float sv_movetiltscalar = 0.5;
+
+// Underwater tilting
+server bool sv_underwatertilt = true;
+server float sv_underwatertiltspeed = 0.8;
+server float sv_underwatertiltangle = 0.2;
+server float sv_underwatertiltscalar = 1.0;
+
+// Death tilting
+server bool sv_deathtilt = true;
+
+// Leaning
+server float sv_leanangle = 22.5;
+user bool cl_strafelean = false;
+
+// RealAim
+server bool sv_syncmovetilt = true;
+server bool sv_realaimspring = true;
+server bool sv_realaimtoggle = true;
+server float sv_realaimsway = 1.0;
+server float sv_realaimrate = 1.0;
+
+// Footsteps
+server bool sv_playFootsteps = true;
+server float sv_footstepVolume = 1.0;

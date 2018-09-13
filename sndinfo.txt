@@ -1,0 +1,245 @@
+// Copyright (c) 2018 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.  
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
+// Default / Ground
+step/default1 dsstp1
+step/default2 dsstp2
+step/default3 dsstp3
+step/default4 dsstp4
+$random step/default
+{
+    step/default1
+    step/default2
+    step/default3
+    step/default4
+}
+
+// Water
+step/water1 dswtr1
+step/water2 dswtr2
+step/water3 dswtr3
+step/water4 dswtr4
+$random step/water
+{
+    step/water1
+    step/water2
+    step/water3
+    step/water4
+}
+
+// Carpet
+step/carpet1 dscarp1
+step/carpet2 dscarp2
+step/carpet3 dscarp3
+$random step/carpet
+{
+    step/carpet1
+    step/carpet2
+    step/carpet3
+}
+
+// Dirt
+step/dirt1 dsdirt1
+step/dirt2 dsdirt2
+step/dirt3 dsdirt3
+step/dirt4 dsdirt4
+step/dirt5 dsdirt5
+step/dirt6 dsdirt6
+$random step/dirt
+{
+    step/dirt1
+    step/dirt2
+    step/dirt3
+    step/dirt4
+    step/dirt5
+    step/dirt6
+}
+
+// Gravel
+step/gravel1 dsgrav1
+step/gravel2 dsgrav2
+step/gravel3 dsgrav3
+step/gravel4 dsgrav4
+$random step/gravel
+{
+    step/gravel1
+    step/gravel2
+    step/gravel3
+    step/gravel4
+}
+
+// Hard
+step/hard1 dshard1
+step/hard2 dshard2
+step/hard3 dshard3
+step/hard4 dshard4
+step/hard5 dshard5
+step/hard6 dshard6
+$random step/hard
+{
+    step/hard1
+    step/hard2
+    step/hard3
+    step/hard4
+    step/hard5
+    step/hard6
+}
+
+// Metal A
+step/metal/a1 dsmet01
+step/metal/a2 dsmet02
+step/metal/a3 dsmet03
+step/metal/a4 dsmet04
+step/metal/a5 dsmet05
+step/metal/a6 dsmet06
+$random step/metal/a
+{
+    step/metal/a1
+    step/metal/a2
+    step/metal/a3
+    step/metal/a4
+    step/metal/a5
+    step/metal/a6
+}
+
+// Metal B (Thin Metals, Girders)
+step/metal/b1 dsmet201
+step/metal/b2 dsmet202
+step/metal/b3 dsmet203
+step/metal/b4 dsmet204
+$random step/metal/b
+{
+    step/metal/b1
+    step/metal/b2
+    step/metal/b3
+    step/metal/b4
+}
+
+// Rock
+step/rock1 dsrock1
+step/rock2 dsrock2
+step/rock3 dsrock3
+step/rock4 dsrock4
+step/rock5 dsrock5
+step/rock6 dsrock6
+step/rock7 dsrock7
+step/rock8 dsrock8
+$random step/rock
+{
+    step/rock1
+    step/rock2
+    step/rock3
+    step/rock4
+    step/rock5
+    step/rock6
+    step/rock7
+    step/rock8
+}
+
+// Snow
+step/snow1 dssnow1
+step/snow2 dssnow2
+step/snow3 dssnow3
+step/snow4 dssnow4
+step/snow5 dssnow5
+step/snow6 dssnow6
+$random step/snow
+{
+    step/snow1
+    step/snow2
+    step/snow3
+    step/snow4
+    step/snow5
+    step/snow6
+}
+
+// Tile A
+step/tile/a1 dstile01
+step/tile/a2 dstile02
+step/tile/a3 dstile03
+step/tile/a4 dstile04
+step/tile/a5 dstile05
+step/tile/a6 dstile06
+$random step/tile/a
+{
+    step/tile/a1
+    step/tile/a2
+    step/tile/a3
+    step/tile/a4
+    step/tile/a5
+    step/tile/a6
+}
+
+// Tile B (Hallways, Marble/Finer Tiles)
+step/tile/b1 dstile21
+step/tile/b2 dstile22
+step/tile/b3 dstile23
+step/tile/b4 dstile24
+step/tile/b5 dstile25
+step/tile/b6 dstile26
+step/tile/b7 dstile27
+step/tile/b8 dstile28
+$random step/tile/b
+{
+    step/tile/b1
+    step/tile/b2
+    step/tile/b3
+    step/tile/b4
+    step/tile/b5
+    step/tile/b6
+    step/tile/b7
+    step/tile/b8
+}
+
+// Wood
+step/wood1 dswood1
+step/wood2 dswood2
+step/wood3 dswood3
+step/wood4 dswood4
+$random step/wood
+{
+    step/wood1
+    step/wood2
+    step/wood3
+    step/wood4
+}
+
+// Slime
+step/slime1 dsslime1
+step/slime2 dsslime2
+step/slime3 dsslime3
+step/slime4 dsslime4
+$random step/slime
+{
+    step/slime1
+    step/slime2
+    step/slime3
+    step/slime4
+}
+
+// Slimy
+step/slimy1 dsslimy1
+step/slimy2 dsslimy2
+step/slimy3 dsslimy3
+step/slimy4 dsslimy4
+$random step/slimy
+{
+    step/slimy1
+    step/slimy2
+    step/slimy3
+    step/slimy4
+}
+
+// Lava
+step/lava1 dslava1
+step/lava2 dslava2
+step/lava3 dslava3
+step/lava4 dslava4
+$random step/lava
+{
+    step/lava1
+    step/lava2
+    step/lava3
+    step/lava4
+}

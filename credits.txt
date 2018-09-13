@@ -1,0 +1,17 @@
+Immerse: a combined movement and camera immersive effects mutator for GZDoom
+
+Leaning and RealAim code by Joshua Hard.
+
+Immerse uses (a lot of) code from:
+	Tilt++ by Nash Muhandes
+	Footsteps by Benjamin Moir
+	
+It's as much their work as my own; I just stitched it all together and made them
+all play nicely with one another.
+
+--------------------------------------------------------------------------------
+
+Footsteps Credits:
+
+Ral22
+    Supplying the vast majority of default sounds

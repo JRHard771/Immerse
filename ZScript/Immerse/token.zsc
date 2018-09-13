@@ -1,0 +1,105 @@
+// Copyright (c) 2018 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.  
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
+enum ETokenKind
+{
+    TOK_Unknown,
+    TOK_Comment,
+    TOK_Identifier,
+    TOK_Number,
+    TOK_StringLit,
+    TOK_CharLit,
+    TOK_Bang,
+    TOK_Hash,
+    TOK_Dollar,
+    TOK_Percent,
+    TOK_And,
+    TOK_ParenO,
+    TOK_ParenC,
+    TOK_Asterisk,
+    TOK_Plus,
+    TOK_Comma,
+    TOK_Minus,
+    TOK_Period,
+    TOK_Slash,
+    TOK_Colon,
+    TOK_Semicolon,
+    TOK_LessThan,
+    TOK_Equals,
+    TOK_MoreThan,
+    TOK_Question,
+    TOK_At,
+    TOK_BrackO,
+    TOK_Backslash,
+    TOK_BrackC,
+    TOK_Exponent,
+    TOK_Backquote,
+    TOK_BraceO,
+    TOK_VerticalBar,
+    TOK_BraceC,
+    TOK_Tilde,
+    TOK_EndOfStream,
+}
+
+enum ETokenFlags
+{
+    TKF_None             = 0,
+    TKF_WhitespaceSuffix = 1 << 0,
+    TKF_WhitespacePrefix = 1 << 1,
+}
+
+class Token
+{
+    static const string Names[] = {
+        "Unknown",
+        "Comment",
+        "Identifier",
+        "Number",
+        "StringLit",
+        "CharLit",
+        "Bang",
+        "Hash",
+        "Dollar",
+        "Percent",
+        "And",
+        "ParenO",
+        "ParenC",
+        "Asterisk",
+        "Plus",
+        "Comma",
+        "Minus",
+        "Period",
+        "Slash",
+        "Colon",
+        "Semicolon",
+        "LessThan",
+        "Equals",
+        "MoreThan",
+        "Question",
+        "At",
+        "BrackO",
+        "Backslash",
+        "BrackC",
+        "Exponent",
+        "Backquote",
+        "BraceO",
+        "VerticalBar",
+        "BraceC",
+        "Tilde",
+        "EndOfStream"
+    };
+
+    ETokenKind kind;
+    ETokenFlags flags;
+    string value;
+
+    static Token Create(ETokenKind kind = TOK_Unknown, ETokenFlags flags = TKF_None, string value = "")
+    {
+        let tk   = new("Token");
+        tk.kind  = kind;
+        tk.flags = flags;
+        tk.value = value;
+        return tk;
+    }
+}

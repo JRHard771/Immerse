@@ -1,0 +1,15 @@
+addkeysection "Leaning" LeanLR
+
+addmenukey "Strafe-Lean" +strafelean
+addmenukey "Lean Left" +lean_left
+addmenukey "Lean Right" +lean_right
+
+alias +strafelean "set cl_strafelean true"
+alias -strafelean "set cl_strafelean false"
+alias +lean_left "netevent lean_left";
+alias +lean_right "netevent lean_right";
+alias -lean_left "netevent unlean_left";
+alias -lean_right "netevent unlean_right";
+
+defaultbind q +lean_left
+defaultbind e +lean_right

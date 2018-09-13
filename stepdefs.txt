@@ -1,0 +1,170 @@
+// Copyright (c) 2018 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.  
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
+"step/water" {
+    FWATER1
+    FWATER2
+    FWATER3
+    FWATER4
+}
+
+"step/carpet" {
+    FLOOR1_1
+    FLAT14
+    FLAT5_5
+    FLOOR1_6
+    CEIL4_1
+    GRASS1
+    GRASS2
+}
+
+"step/dirt" {
+    RROCK16
+    RROCK19
+}
+
+"step/gravel" {
+    FLOOR6_1
+    FLOOR6_2
+    FLAT10
+    MFLR8_3
+    MFLR8_4
+    RROCK17
+    RROCK18
+}
+
+"step/hard" {
+    FLOOR0_6
+    FLOOR4_8
+    FLOOR5_1
+    FLOOR5_2
+    FLOOR5_3
+    FLOOR5_4
+    TLITE6_4
+    TLITE6_6
+    FLOOR7_1
+    MFLR8_1
+    CEIL3_5
+    CEIL5_2
+    CEIL3_6
+    FLAT8
+    SLIME13
+}
+
+"step/metal/a" {
+    STEP1
+    STEP2
+    GATE1
+    GATE2
+    GATE3
+    CEIL1_2
+    CEIL1_3
+    SLIME14
+    SLIME15
+    SLIME16
+}
+
+"step/metal/b" {
+    FLAT22
+    FLAT23
+    CONS1_1
+    CONS1_5
+    CONS1_7
+    GATE4
+    FLAT4
+}
+
+"step/rock" {
+    FLAT1
+    FLAT5_4
+    MFLR8_2
+    FLAT1_1
+    FLAT1_2
+    FLAT1_3
+    FLAT5_7
+    FLAT5_8
+    GRNROCK
+    RROCK01
+    RROCK02
+    RROCK03
+    RROCK04
+    RROCK05
+    RROCK06
+    RROCK07
+    RROCK08
+    RROCK09
+    RROCK10
+    RROCK11
+    RROCK12
+    RROCK13
+    RROCK14
+    RROCK15
+    RROCK20
+    SLIME09
+    SLIME10
+    SLIME11
+    SLIME12
+}
+
+"step/snow" {
+    FLAT5_6
+}
+
+"step/tile/a" {
+    FLOOR3_3
+    FLAT20
+    CEIL3_3
+    CEIL3_4
+    FLAT3
+}
+
+"step/tile/b" {
+    FLOOR7_2
+    DEM1_1
+    DEM1_2
+    DEM1_3
+    DEM1_4
+    DEM1_5
+    DEM1_6
+}
+
+"step/wood" {
+    CEIL1_1
+    FLAT5_1
+    FLAT5_2
+}
+
+"step/slime" {
+    NUKAGE1
+    NUKAGE2
+    NUKAGE3
+    BLOOD1
+    BLOOD2
+    BLOOD3
+    SLIME01
+    SLIME02
+    SLIME04
+    SLIME05
+    SLIME06
+    SLIME07
+    SLIME08
+}
+
+"step/slimy" {
+    SFLR6_1
+    SFLR6_4
+    SFLR7_1
+    SFLR7_4
+}
+
+"step/lava" {
+    LAVA1
+    LAVA2
+    LAVA3
+    LAVA4
+}
+
+"step/none" {
+    F_SKY1
+}
