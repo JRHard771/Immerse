@@ -51,7 +51,11 @@ class Z_ImmerseMe : CustomInventory
 	double strafeInput;
 	double moveTiltOsc, underwaterTiltOsc;
 	double deathTiltOsc;
+	double deathTiltRoll;
 	double deathTiltAngle;
+	double deathTiltPitch;
+	double deathTiltAngleStart;
+	double deathTiltPitchStart;
 	double lastRoll;
 	
 	static const string[] floorTexture =
@@ -262,13 +266,18 @@ class Z_ImmerseMe : CustomInventory
 		if (!bIsPlayerAlive() && deathTiltEnabled)
 		{
 			double deathTiltSpeed = 1.0;
+			owner.player.attacker = null;
 
-			if (deathTiltAngle == 0)
+			if (deathTiltRoll == 0)
 			{
-				// vary the angle a little
-				deathTiltAngle = -90.f;
-				deathTiltAngle += FRandom(-45.f, 45.f);
-				deathTiltAngle *= RandomPick(-1, 1);
+				// vary the angles
+				deathTiltAngleStart = owner.angle;
+				deathTiltPitchStart = owner.pitch;
+				
+				deathTiltAngle = frandom(-180.0, 180.0);
+				deathTiltPitch = frandom(22.5, 90.0) * randompick(-1, 1);
+				deathTiltRoll = frandom(22.5, 67.5) + abs(deathTiltAngle) * 0.5;
+				deathTiltRoll *= randompick(-1, 1);
 			}
 
 			if (deathTiltOsc < 22.5)
@@ -277,12 +286,16 @@ class Z_ImmerseMe : CustomInventory
 			}
 
 			r = Sin(deathTiltOsc);
-			r *= deathTiltAngle;
+			
+			owner.A_SetAngle(r * deathTiltAngle + deathTiltAngleStart, SPF_INTERPOLATE);
+			owner.A_SetPitch(r * deathTiltPitch + deathTiltPitchStart, SPF_INTERPOLATE);
+			
+			r *= deathTiltRoll;
 		}
 		else
 		{
 			deathTiltOsc = 0;
-			deathTiltAngle = 0;
+			deathTiltRoll = 0;
 		}
 
 		// tilt!
