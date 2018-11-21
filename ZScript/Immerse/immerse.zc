@@ -194,10 +194,10 @@ class Z_ImmerseMe : CustomInventory
 			strafeInput = strafeTiltSpeed * (Owner.GetPlayerInput(INPUT_SIDEMOVE) / 10240.0);
 			strafeInput *= strafeTiltAngle;
 			strafeInput *= dir;
-		}
 
-		// tilt!
-		lastRoll += strafeInput;
+			// tilt!
+			lastRoll += strafeInput;
+		}
 
 		//===========================================================================
 		//
@@ -223,10 +223,10 @@ class Z_ImmerseMe : CustomInventory
 			r = Sin(moveTiltOsc);
 			r *= moveTiltAngle;
 			r *= v;
-		}
 
-		// tilt!
-		lastRoll += r;
+			// tilt!
+			lastRoll += r;
+		}
 
 		//===========================================================================
 		//
@@ -252,10 +252,10 @@ class Z_ImmerseMe : CustomInventory
 			r = Sin(underwaterTiltOsc);
 			r *= underwaterTiltAngle;
 			r *= v;
-		}
 
-		// tilt!
-		lastRoll += r;
+			// tilt!
+			lastRoll += r;
+		}
 
 		//===========================================================================
 		//
@@ -291,15 +291,15 @@ class Z_ImmerseMe : CustomInventory
 			owner.A_SetPitch(r * deathTiltPitch + deathTiltPitchStart, SPF_INTERPOLATE);
 			
 			r *= deathTiltRoll;
+
+			// tilt!
+			lastRoll += r;
 		}
 		else
 		{
 			deathTiltOsc = 0;
 			deathTiltRoll = 0;
 		}
-
-		// tilt!
-		lastRoll += r;
 		
 		//===========================================================================
 		//
@@ -519,15 +519,12 @@ class Z_ImmerseMe : CustomInventory
 		//
 		//===========================================================================
 
-		if (abs(lastRoll) > 0.000001)
-		{
-			// Stabilize tilt
-			lastRoll *= 0.75;
-
-			// Apply the sum of all rolling routines
-			// (including after stabilization)
-			Owner.A_SetRoll(lastRoll + leanlerp, SPF_INTERPOLATE);
-		}
+		// Apply the sum of all rolling routines
+		// (including after stabilization)
+		Owner.A_SetRoll(lastRoll + leanlerp, SPF_INTERPOLATE);
+		
+		// Stabilize tilt
+		lastRoll *= 0.75;
 	}
 
 	override void Tick(void)
